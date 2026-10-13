@@ -31,18 +31,19 @@ pipeline {
                     sh '''
                         set +x
 
+                        # Remove old container using absolute path /usr/bin/docker
                         sshpass -p "$SSH_PASS" ssh \
                             -o StrictHostKeyChecking=no \
                             -o UserKnownHostsFile=/dev/null \
                             "$SSH_USER@103.216.171.222" \
-                            "docker container rm -f waseek.xyz || true"
+                            "/usr/bin/docker container rm -f waseek.xyz || true"
                             
-                        # Deploy the Docker container with correct --name flag
+                        # Deploy new container using absolute path /usr/bin/docker
                         sshpass -p "$SSH_PASS" ssh \
                             -o StrictHostKeyChecking=no \
                             -o UserKnownHostsFile=/dev/null \
                             "$SSH_USER@103.216.171.222" \
-                            "docker run --name waseek.xyz -d -p 3000:80 khanwaseeque123s/myimage:t${BUILD_NUMBER}"
+                            "/usr/bin/docker run --name waseek.xyz -d -p 3000:80 khanwaseeque123s/myimage:t${BUILD_NUMBER}"
                     '''
                 }
             }
