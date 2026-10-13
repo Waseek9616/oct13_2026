@@ -4,11 +4,9 @@ pipeline {
         stage("Setup Environment") {
             steps {
                 sh '''
-                    apt update -y
-                    apt upgrade -y
-                    apt install vim sshpass sudo docker.io docker-compose -y
-                    service docker start
-                    service docker status
+                    echo "Checking Docker version and access..."
+                    docker --version
+                    docker ps || true
                 '''
             }
         }
